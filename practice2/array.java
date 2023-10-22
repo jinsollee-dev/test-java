@@ -2,6 +2,7 @@ package practice2;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class array {
@@ -40,14 +41,20 @@ public class array {
 		System.out.println("배열실습문제1-Q3");
 		System.out.println("정수를 입력하세요");
 		Scanner scan3 = new Scanner(System.in);
-		int input = scan3.nextInt();
-		if (input % 2 == 0) {
-			System.out.println("짝수");
-		} else if (input % 2 == 1) {
-			System.out.println("홀수");
-		} else {
+		
+		
+		try {int input = scan3.nextInt();
+		     if (input % 2 == 0) {
+		     System.out.println("짝수");
+			} else if (input % 2 == 1) {
+				System.out.println("홀수");
+			} else {
+				System.out.println("수를 입력하지 않아 종료합니다.");
+			 }
+		}
+		catch(InputMismatchException e){
 			System.out.println("수를 입력하지 않아 종료합니다.");
-		 }
+		}
 
 		System.out.println();
 
@@ -116,7 +123,9 @@ public class array {
 		System.out.println();
 
 		// 배열실습문제2-Q2.
+		System.out.println();
 		System.out.println("배열실습문제2-Q2");
+		System.out.println("1부터 99사이의 정수를 입력해주세요.");
 		Scanner scan6 = new Scanner(System.in);
 		int input3 = scan6.nextInt();
 		// 0<input3 < 100
@@ -167,30 +176,73 @@ public class array {
 
 		// 배열실습문제2-Q6.
 		System.out.println("배열실습문제2-Q6");
+		//선택정렬 
+		int[] sort = {15, 7, 2, 9, 10, 12, 17, 11, 20, 5};
+		int tempValue, tempJ = 0;
+		for (i = 0; i < sort.length; i++) {  // 배열 처음부터 끝까지 반복 (i는 현재 위치)
+			int min = Integer.MAX_VALUE;  // 제일 작은 수를 찾기 위해, min은 int의 최대 값으로 임시 세팅
+			for (int j = i; j < sort.length; j++) {
+				if (sort[j] < min) {  // 현재 위치부터 배열 마지막까지 반복문 돌면서 최소 값을 계속 찾음
+					min = sort[j];
+					tempJ = j;
+				}
+			}
+			tempValue = sort[i]; // 찾은 최소값과 현재 위치의 값과 서로 바꿈
+			sort[i] = sort[tempJ];
+			sort[tempJ] = tempValue;
+		}
+		
+		System.out.println("선택정렬"+ Arrays.toString(sort));
+		
+		//삽입정렬 
+		int target; 
+		for ( i = 1; i < sort.length; i++) {
+			tempValue = sort[i]; // 선택된 숫자를 임시 저장
+			target = i - 1;  // 비교 대상의 위치
+			while (target >= 0 && sort[target] > tempValue) { // 왼쪽 끝까지 가거나, 자신보다 작은 수를 만나기 전까지 이동하면 삽입될 위치를 찾음
+				sort[target + 1] = sort[target]; // 나보다 큰 수는 오른쪽으로 한칸 이동
+				target--; // 그 다음 비교대상을 왼쪽으로 한 칸 이동
+			}
+			sort[target + 1] = tempValue;  // 적정한 위치를 찾아 선택된 숫자를 삽입
+		}
+		System.out.println("삽입정렬"+Arrays.toString(sort));
+		
+		//버블정렬 
+		for (i = 0; i < sort.length; i++) {
+			for (int j = 0; j < sort.length - i - 1; j++) { // 0 ~ n, 0 ~ n-1 번 반복를 돌면서 바로 옆 숫자릴 비교
+				if (sort[j] > sort[j + 1]) {  // 바로 오른쪽 숫자와 비교하여 크기가 클 경우, 서로 위치를 바꿈
+					tempValue = sort[j];
+					sort[j] = sort[j + 1];
+					sort[j + 1] = tempValue;
+				}
+			}
+		}
+		System.out.println("버블정렬"+Arrays.toString(sort));
+		
 
 		// 배열실습문제2-Q7.
 		System.out.println("배열실습문제2-Q7");
-		int lineCount = 9; // 다른 홀수 값을 넣어보세요
-		int spaceCount = lineCount / 2 + 1;
-		int starCount = 1;
+		int line = 9; 
+		int space = line / 2 + 1;
+		int star = 1;
 
-		for (i = 0; i < lineCount; i++) {
-			for (int j = 0; j < spaceCount; j++) {
+		for (i = 0; i < line; i++) {
+			for (int j = 0; j < space; j++) {
 				System.out.print(' ');
 			}
-			for (int j = 0; j < starCount; j++) {
+			for (int j = 0; j < star; j++) {
 				System.out.print('*');
 			}
-			for (int j = 0; j < spaceCount; j++) {
+			for (int j = 0; j < space; j++) {
 				System.out.print(' ');
 			}
 
-			if (i < lineCount / 2) {
-				spaceCount -= 1;
-				starCount += 2;
+			if (i < line / 2) {
+				space -= 1;
+				star += 2;
 			} else {
-				spaceCount += 1;
-				starCount -= 2;
+				space += 1;
+				star -= 2;
 			}
 			System.out.println();
 		}
